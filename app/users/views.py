@@ -1,4 +1,4 @@
-from typing import Any, List, Optional
+from typing import Any, Optional
 
 from fastapi import APIRouter, Response, Depends, HTTPException, status
 from fastapi.security import APIKeyCookie
@@ -27,9 +27,6 @@ def read_users(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_superuser),
 ) -> Any:
-    """
-    Retrieve users.
-    """
     crud = CRUD(db)
     result = crud.get_multi(
         page=page,
@@ -50,9 +47,6 @@ def create_user(
     data: schemas.UserCreate,
     current_user: models.User = Depends(deps.get_superuser),
 ) -> Any:
-    """
-    Create new user.
-    """
     crud = CRUD(db)
     return crud.create(**data.dict())
 
@@ -64,9 +58,6 @@ def delete_user(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_superuser),
 ) -> Any:
-    """
-    Delete user.
-    """
     crud = CRUD(db)
     if current_user.id == user_id:
         raise HTTPException(
@@ -81,9 +72,6 @@ def get_current_user(
     *,
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Any:
-    """
-    Get current user.
-    """
     return current_user
 
 
@@ -94,9 +82,6 @@ def login_user(
     data: schemas.UserLogin,
     response: Response,
 ) -> Any:
-    """
-    Login user.
-    """
     crud = CRUD(db)
     user = crud.get_by_cred(**data.dict())
     if not (user and user.is_active):
@@ -114,9 +99,6 @@ def logout_user(
     token: str = Depends(APIKeyCookie(name=AUTH_COOKIE_NAME)),
     current_user: models.User = Depends(deps.get_current_user),
 ) -> Any:
-    """
-    Logout user.
-    """
     auth.remove_user_id(token)
 
 
@@ -126,9 +108,6 @@ def read_user_by_id(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_superuser),
 ) -> Any:
-    """
-    Get a specific user by id.
-    """
     crud = CRUD(db)
     return crud.get(user_id, silent=False)
 
@@ -141,8 +120,5 @@ def update_user(
     data: schemas.UserUpdate,
     current_user: models.User = Depends(deps.get_superuser),
 ) -> Any:
-    """
-    Update user.
-    """
     crud = CRUD(db)
     return crud.update(pk=user_id, **data.dict(exclude_unset=True))

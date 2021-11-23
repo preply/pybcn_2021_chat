@@ -109,10 +109,6 @@ class CRUDBase:
             query=query,
         )
 
-    def count_total(self):
-        """Dangerous, Use this method only in tests"""
-        return self.db.query(self.model).count()
-
     @staticmethod
     def is_null_error(e: Exception):
         return "null value in column" in str(e)
