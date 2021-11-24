@@ -1,4 +1,3 @@
-import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
@@ -14,7 +13,7 @@ endpoint = f"{API_PREFIX}/users/"
 
 def test_normal_flow(client: TestClient, db: Session, login) -> None:
     login()
-    data = {"name": faker.name(), "lang": str(Lang.ES), "password": faker.name()}
+    data = {"name": faker.name(), "lang": Lang.ES.value, "password": faker.name()}
 
     r = client.post(endpoint, json=data)
 

@@ -16,11 +16,11 @@ class User(Base, Dated):
     id = Column(
         UUID(as_uuid=False), primary_key=True, default=get_random_uuid, index=True
     )
-    name = Column(String(256), index=True, unique=True)
+    name = Column(String(256), unique=True)
     password = Column(String(256), nullable=False)
     is_active = Column(Boolean(), default=True, index=True)
     role = Column(Enum(Role), default=Role.USER, index=True)
-    lang = Column(Enum(Lang), default=Lang.EN, index=True)
+    lang = Column(Enum(Lang), default=Lang.EN)
 
 
 @event.listens_for(User, "before_insert")

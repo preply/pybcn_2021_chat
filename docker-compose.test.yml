@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   chat:
-    entrypoint: ["pytest", "-v", "--cov=app", "--color=yes", "--cov-report", "term-missing", "$TEST_FILE"]
+    entrypoint: ["pytest", "-vv", "--cov=app", "--color=yes", "--cov-report", "term-missing", "$TEST_FILE"]
     restart: "no"
     environment:
       - LOG_LEVEL=DEBUG

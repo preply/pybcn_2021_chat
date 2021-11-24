@@ -1,39 +1,40 @@
 import pytest
 from sqlalchemy.orm import Session
 
+from app.config import SECRET_KEY
+from app.users.utils import hash_password
 from tests import faker
 
 from app.common.crud import CRUDException
-from app.users.crud import CRUD
+from app.users.crud import UserCRUD
 from app.users.constants import Role, Lang
 
 
 @pytest.mark.parametrize("role", Role)
 @pytest.mark.parametrize("lang", Lang)
 def test_working_flow(db: Session, role, lang):
-    crud = CRUD(db)
-    for i in range(5):
-        data = dict(
-            role=role,
-            lang=lang,
-            name=faker.name(),
-            password="asddasdd",
-        )
+    crud = UserCRUD(db)
+    data = dict(
+        role=role,
+        lang=lang,
+        name=faker.name(),
+        password="asddasdd",
+    )
 
-        item = crud.create(**data)
-        db.refresh(item)
-        assert item.id
-        assert item.role == role
+    item = crud.create(**data)
+    db.refresh(item)
+    assert item.id
+    assert item.role == role
 
-        # Check hashing
-        assert item.password and item.password != data["password"]
+    # Check hashing
+    assert item.password == hash_password(salt=SECRET_KEY, password=data["password"])
 
-        assert item.created_at
-        assert item.updated_at
+    assert item.created_at
+    assert item.updated_at
 
 
 def test_default_values(db: Session):
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     item = crud.create(
         name=faker.name(),
         password="1212",
@@ -44,16 +45,15 @@ def test_default_values(db: Session):
 
 
 def test_no_required_fields(db: Session):
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     with pytest.raises(CRUDException):
         crud.create(
             name=faker.name(),
-            # password="1212",
         )
 
 
 def test_duplicated_failure(db: Session):
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     kwargs = {"name": faker.name(), "password": faker.name()}
 
     crud.create(**kwargs)

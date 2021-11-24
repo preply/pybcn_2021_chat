@@ -1,10 +1,11 @@
 import logging
-from abc import abstractmethod
 from datetime import datetime
 from typing import Union
 
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session, Query
+
+from app.common.utils import is_null_error, in_error
 
 
 logger = logging.getLogger(__name__)
@@ -31,18 +32,14 @@ class CRUDBase:
         except IntegrityError as e:
             self.db.rollback()
 
-            if self.is_null_error(e):
+            if is_null_error(e):
                 raise CRUDException("Required fields are empty")
 
-            if self.in_error(e, text="already exists"):
+            if in_error(e, text="already exists"):
                 raise CRUDException("Already exists")
 
             raise
         return obj
-
-    def mutate(self, **kwargs):
-        """Custom kwargs mutating logic here"""
-        return kwargs
 
     def delete(self, pk: Union[int, str]):
         obj = self.get(pk, silent=False)
@@ -51,7 +48,7 @@ class CRUDBase:
             self.db.commit()
         except IntegrityError:
             self.db.rollback()
-            msg = f"Can not delete {self.name}:{id}"
+            msg = f"Cannot delete {self.name}:{id}"
             logger.warning(msg)
             raise CRUDException(msg)
 
@@ -68,13 +65,12 @@ class CRUDBase:
             raise CRUDException("Empty id")
 
         if not (res or silent):
-            raise DoesNotExistsException(f"Does not exist {self.name}:{pk}")
+            raise DoesNotExistException(f"Does not exist {self.name}:{pk}")
 
         return res
 
     def create(self, **kwargs):
-        data = self.mutate(**kwargs)
-        obj = self.model(**data)
+        obj = self.model(**kwargs)
         self.save(obj)
         self.db.refresh(obj)
         logger.info("Created %s:%s", self.name, obj.id)
@@ -86,8 +82,7 @@ class CRUDBase:
         if hasattr(obj, "updated_at"):
             obj.updated_at = datetime.utcnow()
 
-        data = self.mutate(**kwargs)
-        for field, value in data.items():
+        for field, value in kwargs.items():
             if value is not None or not ignore_unset:
                 setattr(obj, field, value)
 
@@ -109,14 +104,6 @@ class CRUDBase:
             query=query,
         )
 
-    @staticmethod
-    def is_null_error(e: Exception):
-        return "null value in column" in str(e)
-
-    @staticmethod
-    def in_error(e: Exception, text: str):
-        return text in str(e)
-
 
 class CRUDException(Exception):
     def __init__(self, msg, status_code=None):
@@ -124,7 +111,7 @@ class CRUDException(Exception):
         self.status_code = status_code
 
 
-class DoesNotExistsException(CRUDException):
+class DoesNotExistException(CRUDException):
     def __init__(self, msg):
         self.msg = msg
         self.status_code = 404

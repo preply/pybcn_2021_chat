@@ -31,7 +31,7 @@ bash:
 	$(COMPOSE-DEV) exec chat /bin/sh
 
 dbshell:
-	$(COMPOSE-DEV) exec chat pgcli postgresql://postgres:hg56LK76h0@chat-db:5432/chat
+	$(COMPOSE-DEV) exec chat pgcli postgresql://postgres:uyT765sds65@chat-db:5432/chat
 
 redis-cli:
 	$(COMPOSE-DEV) exec chat-redis redis-cli

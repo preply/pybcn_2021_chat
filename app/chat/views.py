@@ -9,8 +9,8 @@ from app.common.utils import templates
 from app.common.auth import utils as auth
 from app.common import deps
 from app.users.models import User
-from app.users.crud import CRUD as UserCRUD
-from app.rooms.crud import CRUD as RoomCRUD
+from app.users.crud import UserCRUD
+from app.rooms.crud import RoomCRUD
 
 
 router = APIRouter(prefix="/chat")

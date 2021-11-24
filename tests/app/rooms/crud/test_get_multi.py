@@ -2,11 +2,11 @@ from itertools import repeat
 from sqlalchemy.orm import Session
 
 from tests import faker
-from app.rooms.crud import CRUD
+from app.rooms.crud import RoomCRUD
 
 
 def test_working_flow(db: Session, room_factory):
-    crud = CRUD(db)
+    crud = RoomCRUD(db)
     limit = 5
     prefix = "fghsdsd"
 

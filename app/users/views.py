@@ -9,7 +9,7 @@ from app.common.auth import utils as auth
 from app.common import deps
 from app.users import schemas, models
 from app.users.constants import Role
-from app.users.crud import CRUD
+from app.users.crud import UserCRUD
 
 
 router = APIRouter(prefix="/users")
@@ -27,7 +27,7 @@ def read_users(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_superuser),
 ) -> Any:
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     result = crud.get_multi(
         page=page,
         query=query,
@@ -47,7 +47,7 @@ def create_user(
     data: schemas.UserCreate,
     current_user: models.User = Depends(deps.get_superuser),
 ) -> Any:
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     return crud.create(**data.dict())
 
 
@@ -58,11 +58,11 @@ def delete_user(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_superuser),
 ) -> Any:
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     if current_user.id == user_id:
         raise HTTPException(
             status_code=400,
-            detail="Can not delete yourself",
+            detail="Cannot delete yourself",
         )
     return crud.delete(user_id)
 
@@ -82,12 +82,12 @@ def login_user(
     data: schemas.UserLogin,
     response: Response,
 ) -> Any:
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     user = crud.get_by_cred(**data.dict())
     if not (user and user.is_active):
         raise HTTPException(
             status_code=403,
-            detail="Can not authorize user",
+            detail="Cannot authorize user",
         )
     response.set_cookie(key=AUTH_COOKIE_NAME, value=auth.set_user_id(user.id))
     return user
@@ -100,7 +100,7 @@ def register_user(
     data: schemas.UserRegister,
     response: Response,
 ) -> Any:
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     user = crud.create(**data.dict())
     response.set_cookie(key=AUTH_COOKIE_NAME, value=auth.set_user_id(user.id))
     return user
@@ -121,7 +121,7 @@ def read_user_by_id(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_superuser),
 ) -> Any:
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     return crud.get(user_id, silent=False)
 
 
@@ -133,5 +133,5 @@ def update_user(
     data: schemas.UserUpdate,
     current_user: models.User = Depends(deps.get_superuser),
 ) -> Any:
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     return crud.update(pk=user_id, **data.dict(exclude_unset=True))

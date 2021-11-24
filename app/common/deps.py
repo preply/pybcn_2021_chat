@@ -13,7 +13,7 @@ from app.config import AUTH_COOKIE_NAME
 from app.common.auth.utils import get_user_id
 from app.users.models import User
 from app.users.constants import Role
-from app.users.crud import CRUD as UserCRUD
+from app.users.crud import UserCRUD
 
 
 auth_bearer = HTTPBearer()

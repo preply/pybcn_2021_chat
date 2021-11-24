@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
 
-from app.rooms.crud import CRUD
+from app.rooms.crud import RoomCRUD
 
 
 def test_working_flow(db: Session, room_factory):
-    crud = CRUD(db)
+    crud = RoomCRUD(db)
     room = room_factory()
     room_id = room.id
 

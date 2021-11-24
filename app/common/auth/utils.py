@@ -1,5 +1,7 @@
 from typing import Optional
 from loguru import logger
+
+from app.config import AUTH_TTL
 from lib.factory import get_redis
 from lib.utils import get_random_uuid
 
@@ -18,7 +20,7 @@ def get_user_id(token: str) -> Optional[str]:
 def set_user_id(user_id: str) -> str:
     redis = get_redis()
     token = get_random_uuid()
-    redis.set(name=AUTH_KEY % token, value=user_id, ex=86400)
+    redis.set(name=AUTH_KEY % token, value=user_id, ex=AUTH_TTL)
     logger.debug("Saved in redis user:{id}", id=user_id)
     return token
 

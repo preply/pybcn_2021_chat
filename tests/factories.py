@@ -3,10 +3,11 @@ import pytest
 import random
 from sqlalchemy.orm import Session
 
+from tests import faker
+
 from app.rooms.models import Room, Message
 from app.users.constants import Role, Lang
 from app.users.models import User
-from tests import faker
 
 
 class MetaBase:

@@ -4,7 +4,7 @@ from sqlalchemy import Column, DateTime
 from sqlalchemy.orm import declared_attr
 
 
-class Dated(object):
+class Dated:
     @declared_attr
     def created_at(cls):
         return Column(DateTime, default=datetime.utcnow, index=True)

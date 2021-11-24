@@ -1,12 +1,12 @@
-from app.common.constants import Const
+from enum import Enum
 
 
-class Role(Const):
+class Role(Enum):
     USER = "USER"
     ADMIN = "ADMIN"
 
 
-class Lang(Const):
+class Lang(Enum):
     EN = "en"
     ES = "es"
     UA = "ua"

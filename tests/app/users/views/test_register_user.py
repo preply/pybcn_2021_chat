@@ -1,10 +1,11 @@
 import random
-
 from fastapi.testclient import TestClient
+
+from tests import faker
 
 from app.config import API_PREFIX, AUTH_COOKIE_NAME
 from app.users.constants import Lang
-from tests import faker
+
 
 endpoint = f"{API_PREFIX}/users/register/"
 
@@ -15,7 +16,11 @@ def test_normal_flow(client: TestClient, user_factory) -> None:
 
     r = client.post(
         endpoint,
-        json={"password": password, "name": name, "lang": str(random.choice(list(Lang)))},
+        json={
+            "password": password,
+            "name": name,
+            "lang": random.choice(list(Lang)).value,
+        },
     )
 
     assert r.status_code == 200, f"body:{r.content}"

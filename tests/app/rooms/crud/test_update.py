@@ -5,11 +5,11 @@ from lib.utils import get_random_uuid
 from tests import faker
 
 from app.common.crud import CRUDException
-from app.rooms.crud import CRUD
+from app.rooms.crud import RoomCRUD
 
 
 def test_working_flow(db: Session, room_factory):
-    crud = CRUD(db)
+    crud = RoomCRUD(db)
 
     room = room_factory()
     updated_at = room.updated_at
@@ -25,7 +25,7 @@ def test_working_flow(db: Session, room_factory):
 
 
 def test_wrong_pk(db: Session, room_factory):
-    crud = CRUD(db)
+    crud = RoomCRUD(db)
     room_factory()
 
     with pytest.raises(CRUDException):

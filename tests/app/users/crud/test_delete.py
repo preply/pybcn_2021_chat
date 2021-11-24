@@ -1,12 +1,12 @@
 from sqlalchemy.orm import Session
 
-from app.users.crud import CRUD
+from app.users.crud import UserCRUD
 from app.users.models import User
 
 
 def test_working_flow(db: Session, user_factory):
     user = user_factory()
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     user_id = user.id
 
     assert db.query(User).get(user_id)

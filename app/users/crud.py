@@ -1,15 +1,13 @@
-from loguru import logger
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import or_
 
-from app.common.crud import CRUDBase, CRUDException, PaginatedList
 from app.config import SECRET_KEY
+from app.common.crud import CRUDBase, PaginatedList
 from app.users.constants import Role
 from app.users.models import User
 from app.users.utils import hash_password
 
 
-class CRUD(CRUDBase):
+class UserCRUD(CRUDBase):
     model = User
 
     def get_by_cred(self, name: str, password) -> User:

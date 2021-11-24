@@ -3,13 +3,11 @@ from itertools import repeat
 from sqlalchemy.orm import Session
 
 from app.users.constants import Role
-from tests import faker
-
-from app.users.crud import CRUD
+from app.users.crud import UserCRUD
 
 
 def test_working_flow(db: Session, user_factory):
-    crud = CRUD(db)
+    crud = UserCRUD(db)
 
     limit = 10
     prefix = "fghsdsd"
@@ -28,7 +26,7 @@ def test_working_flow(db: Session, user_factory):
 
 
 def test_filters(db: Session, user_factory):
-    crud = CRUD(db)
+    crud = UserCRUD(db)
 
     u1 = user_factory(is_active=False, role=Role.USER)
     u2 = user_factory(is_active=True, role=Role.ADMIN)

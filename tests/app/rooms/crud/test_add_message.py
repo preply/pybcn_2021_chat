@@ -2,11 +2,11 @@ from sqlalchemy.orm import Session
 
 from tests import faker
 
-from app.rooms.crud import CRUD
+from app.rooms.crud import RoomCRUD
 
 
 def test_working_flow(db: Session, room_factory, user_factory):
-    crud = CRUD(db)
+    crud = RoomCRUD(db)
     user = user_factory()
     room = room_factory()
     messages_len = len(room.messages)

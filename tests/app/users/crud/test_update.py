@@ -5,14 +5,14 @@ from lib.utils import get_random_uuid
 from tests import faker
 
 from app.common.crud import CRUDException
-from app.users.crud import CRUD
+from app.users.crud import UserCRUD
 from app.users.constants import Role, Lang
 
 
 @pytest.mark.parametrize("role", Role)
 @pytest.mark.parametrize("lang", Lang)
 def test_working_flow(db: Session, user_factory, role, lang):
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     user = user_factory()
     hashed_password = user.password
     updated_at = user.updated_at
@@ -40,17 +40,17 @@ def test_working_flow(db: Session, user_factory, role, lang):
 
 
 def test_duplicated(db: Session, user_factory):
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     name = faker.name()
     user_factory(name=name)
-    another = user_factory()
+    another_user = user_factory()
 
     with pytest.raises(CRUDException):
-        crud.update(pk=another.id, name=name)
+        crud.update(pk=another_user.id, name=name)
 
 
 def test_no_user(db: Session, user_factory):
-    crud = CRUD(db)
+    crud = UserCRUD(db)
     user_factory()
 
     with pytest.raises(CRUDException):

@@ -7,6 +7,7 @@ from tests import faker
 from app.config import API_PREFIX
 from app.users.constants import Role, Lang
 
+
 endpoint = f"{API_PREFIX}/users/%s/"
 
 
@@ -36,8 +37,8 @@ def test_normal_flow(
 
     db.refresh(user)
     assert user.name == data["name"]
-    assert str(user.role) == data["role"]
-    assert str(user.lang) == data["lang"]
+    assert user.role.value == data["role"]
+    assert user.lang.value == data["lang"]
 
 
 def test_not_superuser(
@@ -47,13 +48,13 @@ def test_not_superuser(
 ) -> None:
     user = user_factory(role=Role.USER)
     login(user)
-    another = user_factory(role=Role.USER)
+    another_user = user_factory(role=Role.USER)
 
     data = dict(
         name=faker.name(),
         password=faker.phone_number(),
     )
 
-    r = client.put(endpoint % another.id, json=data)
+    r = client.put(endpoint % another_user.id, json=data)
 
     assert r.status_code == 403

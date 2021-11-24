@@ -5,7 +5,7 @@ from app.rooms.models import Room, Message
 from app.users.constants import Lang
 
 
-class CRUD(CRUDBase):
+class RoomCRUD(CRUDBase):
     model = Room
 
     def get_multi(

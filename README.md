@@ -13,13 +13,6 @@ make run
 ```
 
 ## Usage
-
-```bash
-make <command>
-```
-
-> May ask superuser rights (for docker)
-
 List of available commands:
 
 - `run`  build application containers and run with dev server (runs all new db migrations)
@@ -36,17 +29,9 @@ List of available commands:
 - `test` run all tests
 - `test file=path/to/tests.py::some_test` run separate dir/module/test
 
-# Module directory structure:
-```tree
-my_microservice
-├── app
-│   └── some_module
-│       ├── models.py <---- data models
-│       ├── views.py  <---- endpoints
-│       ├── crud.py   <---- db wrapper
-│       ├── constants.py
-│       ├── utils.py
-│       └── shemas.py  <---- data schemas
-└── tests
-    └── mimics app
+## Run server
+```bash
+make <command>
 ```
+
+> May ask superuser rights (for docker)

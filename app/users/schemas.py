@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional, List
 
-from pydantic import BaseModel, constr
+from pydantic import BaseModel
 
 from app.common.schemas import InDBBase, ListBase
 from app.users.constants import Role, Lang

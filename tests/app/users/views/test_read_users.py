@@ -14,7 +14,7 @@ def test_normal_flow(client: TestClient, user_factory, login) -> None:
         user_factory(role=Role.USER)
     user_factory(role=Role.ADMIN)
 
-    r = client.get(endpoint, params={"limit": 3, "role": Role.USER})
+    r = client.get(endpoint, params={"limit": 3, "role": Role.USER.value})
 
     assert r.status_code == 200, f"body:{r.content}"
     data = r.json()

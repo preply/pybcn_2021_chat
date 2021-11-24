@@ -11,7 +11,7 @@ endpoint = f"{API_PREFIX}/users/me/"
 @pytest.mark.parametrize("role", Role)
 def test_normal_flow(client: TestClient, user_factory, login, role) -> None:
     user = user_factory(role=role)
-    another = user_factory(role=role)
+    another_user = user_factory(role=role)
     login(user)
 
     r = client.get(endpoint)
@@ -22,15 +22,15 @@ def test_normal_flow(client: TestClient, user_factory, login, role) -> None:
     assert current_user["id"] == user.id
     assert current_user["name"] == user.name
 
-    login(another)
+    login(another_user)
 
     r = client.get(endpoint)
 
     assert r.status_code == 200, f"body:{r.content}"
     current_user = r.json()
 
-    assert current_user["id"] == another.id
-    assert current_user["name"] == another.name
+    assert current_user["id"] == another_user.id
+    assert current_user["name"] == another_user.name
 
 
 def test_not_auth(

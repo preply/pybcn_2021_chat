@@ -31,9 +31,9 @@ def test_not_superuser(
 ) -> None:
     user = user_factory(role=Role.USER)
     login(user)
-    another = user_factory(role=Role.USER)
+    another_user = user_factory(role=Role.USER)
 
-    r = client.get(endpoint % another.id)
+    r = client.get(endpoint % another_user.id)
     assert r.status_code == 403
 
 

@@ -23,4 +23,3 @@ async def test_normal_flow(client: TestClient, login, room_factory) -> None:
     await websocket.send_text(message)
     assert resp == f"User #{user.name}: {message}"
     websocket.close()
-

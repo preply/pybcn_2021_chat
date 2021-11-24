@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 
 from lib.factory import create_app
 
-from app.config import UPLOAD_DIR
+from app.config import STATIC_DIR
 from app.common.utils import is_local
 from app.common.auth.exceptions import AuthException
 from app.common.crud import CRUDException
@@ -31,6 +31,6 @@ async def crud_exceptions_wrapper(request: Request, call_next):
 
 if is_local():
     # Mount static folder for local dev
-    if not os.path.exists(UPLOAD_DIR):
-        os.makedirs(UPLOAD_DIR)
-    app.mount("/static", StaticFiles(directory=UPLOAD_DIR), name="static")
+    if not os.path.exists(STATIC_DIR):
+        os.makedirs(STATIC_DIR)
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
