@@ -14,4 +14,4 @@ ENV PYTHONPATH "${PYTHONPATH}:/app"
 WORKDIR /app
 ADD . /app
 
-ENTRYPOINT ["uvicorn", "app.run:app", "--host", "0.0.0.0", "--port", "5000", "--log-config", "logging.conf"]
+ENTRYPOINT ["uvicorn", "app.run:app", "--host", "0.0.0.0", "--port", "5000"]

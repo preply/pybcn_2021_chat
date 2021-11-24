@@ -93,6 +93,19 @@ def login_user(
     return user
 
 
+@router.post("/register/", response_model=schemas.User)
+def register_user(
+    *,
+    db: Session = Depends(deps.get_db),
+    data: schemas.UserRegister,
+    response: Response,
+) -> Any:
+    crud = CRUD(db)
+    user = crud.create(**data.dict())
+    response.set_cookie(key=AUTH_COOKIE_NAME, value=auth.set_user_id(user.id))
+    return user
+
+
 @router.post("/logout/", status_code=status.HTTP_204_NO_CONTENT, response_class=Response)
 def logout_user(
     *,

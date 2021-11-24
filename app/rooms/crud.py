@@ -32,7 +32,10 @@ class CRUD(CRUDBase):
             query=q, sort_by=sort_by, is_asc=is_asc, page=page, limit=limit
         )
 
-    def add_message(self, room_id: str, user_id: str, text: str, lang: Lang):
+    def add_message(self, room_id: str, user_id: str, text: str, lang: Lang) -> Room:
         self.db.add(Message(room_id=room_id, user_id=user_id, lang=lang, text=text))
         self.db.commit()
         return self.get(room_id)
+
+    def get_first_available(self):
+        return self.db.query(self.model).first()

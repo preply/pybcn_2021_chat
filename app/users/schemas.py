@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, constr
 
 from app.common.schemas import InDBBase, ListBase
 from app.users.constants import Role, Lang
@@ -9,6 +9,12 @@ from app.users.constants import Role, Lang
 
 class UserLogin(BaseModel):
     name: str
+    password: str
+
+
+class UserRegister(BaseModel):
+    name: str
+    lang: Lang
     password: str
 
 
