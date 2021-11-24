@@ -18,7 +18,7 @@ manager = ConnectionManager()
 
 
 @router.get("/", response_class=HTMLResponse)
-def get_chat_page(
+async def get_chat_page(
     request: Request,
     db: Session = Depends(deps.get_db),
     current_user: User = Depends(deps.get_current_user),

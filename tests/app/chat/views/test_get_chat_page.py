@@ -1,4 +1,5 @@
-from fastapi.testclient import TestClient
+import pytest
+from async_asgi_testclient import TestClient
 
 from app.config import API_PREFIX
 
@@ -6,11 +7,10 @@ from app.config import API_PREFIX
 endpoint = f"{API_PREFIX}/chat/"
 
 
-def test_normal_flow(client: TestClient, login, room_factory) -> None:
-    login()
+@pytest.mark.asyncio
+async def test_normal_flow(client: TestClient, login, room_factory) -> None:
     room_factory()
+    login()
 
-    r = client.get(endpoint)
-    assert r.status_code == 200, f"body:{r.content}"
-    assert r.template.name == 'index.html'
-    assert "request" in r.context
+    resp = await client.get(endpoint)
+    assert resp.status_code == 200, f"body:{resp.content}"

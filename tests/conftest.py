@@ -1,6 +1,7 @@
 from typing import Generator
 
 import pytest
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from redis import Redis
 from sqlalchemy.orm import Session
@@ -22,8 +23,13 @@ pytest_plugins = [
 
 
 @pytest.fixture(scope="module")
-def client() -> Generator:
-    with TestClient(app) as c:
+def application() -> Generator[FastAPI, None, None]:
+    yield app
+
+
+@pytest.fixture(scope="module")
+def client(application) -> Generator[TestClient, None, None]:
+    with TestClient(application) as c:
         yield c
 
 
