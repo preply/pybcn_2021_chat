@@ -22,5 +22,5 @@ def translate_text(text: str, target_lang: str, source_lang: str = None):
         )
         return result.get("translatedText", text)
     except BadRequest as e:
-        logger.error('Google translate error:{error}', error=str(e))
+        logger.error("Google translate error:{error}", error=str(e))
         raise TranslationException("Wrong input or google-translate error")

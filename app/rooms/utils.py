@@ -2,7 +2,7 @@ from loguru import logger
 
 from app.users.constants import Lang
 from lib.translators.exceptions import TranslationException
-from lib.translators.google import translate_text
+from lib.translators import translate_text
 
 
 def translate(text: str, from_lang: Lang, to_lang: Lang) -> str:
