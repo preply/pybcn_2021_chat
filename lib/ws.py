@@ -29,7 +29,9 @@ class ConnectionManager:
 
     async def broadcast(self, message: Message):
         for conn in self.active_connections.values():
-            text = translate(text=message.text, from_lang=message.user.lang, to_lang=conn.lang)
+            text = translate(
+                text=message.text, from_lang=message.user.lang, to_lang=conn.lang
+            )
             await conn.socket.send_json(
                 {
                     "text": text,
