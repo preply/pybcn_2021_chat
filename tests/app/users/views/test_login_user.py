@@ -31,7 +31,7 @@ def test_wrong_credentials(client: TestClient, user_factory) -> None:
 
     r = client.post(
         endpoint,
-        json={"password": 'wrong password', "name": user.name},
+        json={"password": "wrong password", "name": user.name},
     )
 
-    assert r.status_code == 400, f"body:{r.content}"
+    assert r.status_code == 403, f"body:{r.content}"

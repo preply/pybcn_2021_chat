@@ -13,6 +13,7 @@ from lib.db.mixins import Dated
 from lib.utils import get_random_uuid
 
 from app.users.constants import Lang
+from app.users.models import User
 
 
 class Message(Base, Dated):
@@ -31,6 +32,7 @@ class Message(Base, Dated):
     )
     text = Column(Text, nullable=False)
     lang = Column(Enum(Lang), nullable=False)
+    user = relationship(User, lazy="joined", uselist=True)
 
 
 class Room(Base, Dated):

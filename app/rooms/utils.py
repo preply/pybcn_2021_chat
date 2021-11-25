@@ -1,10 +1,18 @@
+from loguru import logger
+
 from app.users.constants import Lang
+from lib.translators.exceptions import TranslationException
+from lib.translators.google import translate_text
 
 
 def translate(text: str, from_lang: Lang, to_lang: Lang) -> str:
-    # TODO: call external translation API
     if from_lang != to_lang:
-        return f"Translated {from_lang}->{to_lang}: {text}"
+        try:
+            text = translate_text(
+                text=text, source_lang=from_lang.value, target_lang=to_lang.value
+            )
+        except TranslationException:
+            logger.error("Can not translate {l1}->{l2}", l1=from_lang, l2=to_lang)
     return text
 
 

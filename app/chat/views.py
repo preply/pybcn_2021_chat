@@ -23,7 +23,7 @@ async def get_chat_page(
     db: Session = Depends(deps.get_db),
     current_user: User = Depends(deps.get_current_user),
 ):
-    room = RoomCRUD(db).get_first_available()
+    room = RoomCRUD(db).get_first_available_or_create()
     return templates.TemplateResponse(
         "chat.html",
         {
@@ -52,10 +52,9 @@ async def websocket_endpoint(
     try:
         while True:
             data = await websocket.receive_text()
-            RoomCRUD(db).add_message(
+            message = RoomCRUD(db).add_message(
                 room_id=room_id, user_id=user.id, text=data, lang=user.lang
             )
-            await manager.broadcast(message=data, user=user)
+            await manager.broadcast(message=message, user=user)
     except WebSocketDisconnect:
         manager.disconnect(user.id)
-        await manager.broadcast(f"User #{user.name} left the chat")
