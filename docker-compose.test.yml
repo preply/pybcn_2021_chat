@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  chat:
+    entrypoint: ["pytest", "-vv", "--cov=app", "--color=yes", "--cov-report", "term-missing", "$TEST_FILE"]
+    restart: "no"
+    environment:
+      - LOG_LEVEL=DEBUG
+      - TESTING=1
+      - TEST_FILE=${TEST_FILE}
+    env_file:
+      - .env.test
+
+  chat-db:
+    env_file:
+      - .env.test
+
+  chat-redis:
+    command: ["redis-server", "--save \"\"", "--appendonly", "no"]

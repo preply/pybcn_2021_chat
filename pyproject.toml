@@ -1,0 +1,10 @@
+[tool.black]
+line-length = 90
+target-version = ['py37']
+include = '\.pyi?$'
+
+[tool.pytest.ini_options]
+markers = [
+    "no_db: no database usage",
+    "serial",
+]

@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  chat:
+    container_name: chat
+    restart: always
+    env_file:
+      - .env
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - chat-db
+      - chat-redis
+
+  chat-db:
+    container_name: chat-db
+    image: postgres:13.4
+    env_file:
+      - .env
+    volumes:
+      - chat-db:/var/lib/postgresql/data
+
+  chat-redis:
+    container_name: chat-redis
+    image: redis:6.2.6
+    volumes:
+      - chat-redis:/data
+    command: ["redis-server", "--appendonly", "yes"]
+
+
+volumes:
+  chat-db:
+    driver: local
+  chat-redis:
+    driver: local
+

@@ -1,0 +1,37 @@
+fastapi==0.68.1
+pydantic==1.8.2
+pydantic[email]
+python-multipart==0.0.5
+aiofiles==0.7.0
+uvicorn==0.15.0
+uvicorn[standard]
+Jinja2==3.0.3
+SQLAlchemy==1.4.23
+alembic==1.7.3
+furl==2.1.2
+requests==2.26.0
+psycopg2-binary==2.9.1
+redis==3.5.3
+Pillow==8.3.2
+simplejson==3.17.5
+sentry-sdk
+blinker==1.4
+python-json-logger==2.0.2
+loguru==0.5.3
+google-cloud-storage==1.42.3
+
+# for debug
+ipython==7.27.0
+pprintpp==0.4.0
+pgcli==3.2.0
+
+# test requirements
+pytest==6.2.5
+pytest-cov==2.12.1
+pytest-mock==3.6.1
+pytest-asyncio==0.16.0
+Faker==9.0.0
+factory-boy==3.2.0
+freezegun==1.1.0
+black==21.9b0
+async-asgi-testclient==1.4.7
