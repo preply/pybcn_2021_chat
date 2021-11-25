@@ -32,7 +32,7 @@ class Message(Base, Dated):
     )
     text = Column(Text, nullable=False)
     lang = Column(Enum(Lang), nullable=False)
-    user = relationship(User, lazy="joined", uselist=True)
+    user = relationship(User, lazy="joined", uselist=False)
 
 
 class Room(Base, Dated):

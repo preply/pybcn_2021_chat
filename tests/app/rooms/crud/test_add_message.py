@@ -20,4 +20,5 @@ def test_working_flow(db: Session, room_factory, user_factory):
     assert msg.lang == user.lang
     assert len(room.messages) == messages_len + 1
     assert msg.text == data["text"]
+    assert msg.user == user
     assert room.messages[-1].id == msg.id
