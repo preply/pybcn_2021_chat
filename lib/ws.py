@@ -27,9 +27,9 @@ class ConnectionManager:
     def disconnect(self, user_id: str):
         self.active_connections.pop(user_id)
 
-    async def broadcast(self, message: Message, user: User):
+    async def broadcast(self, message: Message):
         for conn in self.active_connections.values():
-            text = translate(text=message.text, from_lang=user.lang, to_lang=conn.lang)
+            text = translate(text=message.text, from_lang=message.user.lang, to_lang=conn.lang)
             await conn.socket.send_json(
                 {
                     "text": text,
@@ -37,7 +37,7 @@ class ConnectionManager:
                     "lang": message.lang.value,
                     "user": {
                         "id": message.user_id,
-                        "name": user.name,
+                        "name": message.user.name,
                     },
                 }
             )
