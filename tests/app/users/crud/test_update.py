@@ -1,6 +1,8 @@
 import pytest
 from sqlalchemy.orm import Session
 
+from app.config import SECRET_KEY
+from app.users.utils import hash_password
 from lib.utils import get_random_uuid
 from tests import faker
 
@@ -33,7 +35,7 @@ def test_working_flow(db: Session, user_factory, role, lang):
     assert item.name == data["name"]
 
     # Check hashing
-    assert item.password != hashed_password and item.password != data["password"]
+    assert item.password == hash_password(salt=SECRET_KEY, password=data["password"])
 
     assert item.updated_at and item.updated_at != updated_at
     assert item.created_at == created_at

@@ -23,3 +23,15 @@ def test_normal_flow(client: TestClient, user_factory) -> None:
     assert created_user["id"]
     assert created_user["name"] == user.name
     assert "password" not in created_user
+
+
+def test_wrong_credentials(client: TestClient, user_factory) -> None:
+    password = "some password"
+    user = user_factory(password=password)
+
+    r = client.post(
+        endpoint,
+        json={"password": 'wrong password', "name": user.name},
+    )
+
+    assert r.status_code == 400, f"body:{r.content}"
