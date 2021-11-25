@@ -12,7 +12,7 @@ def translate(text: str, from_lang: Lang, to_lang: Lang) -> str:
                 text=text, source_lang=from_lang.value, target_lang=to_lang.value
             )
         except TranslationException:
-            logger.error("Can not translate {l1}->{l2}", l1=from_lang, l2=to_lang)
+            logger.error("Cannot translate {l1}->{l2}", l1=from_lang, l2=to_lang)
     return text
 
 

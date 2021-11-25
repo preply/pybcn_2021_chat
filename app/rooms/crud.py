@@ -38,7 +38,7 @@ class RoomCRUD(CRUDBase):
         self.db.commit()
         return msg
 
-    def get_first_available_or_create(self):
+    def get_or_create_first_available(self):
         res = self.db.query(self.model).first()
         if not res:
             return self.create(name="pybcn 2021")

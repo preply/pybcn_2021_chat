@@ -2,6 +2,7 @@ import os
 from pydantic import BaseConfig
 from fastapi import Request, Response, status
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 from lib.factory import create_app
 
@@ -14,6 +15,19 @@ from app.common.crud import CRUDException
 BaseConfig.arbitrary_types_allowed = True
 
 app = create_app()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.middleware("http")

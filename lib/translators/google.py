@@ -1,6 +1,7 @@
 import six
 from google.cloud import translate_v2 as translate
 from google.cloud.exceptions import BadRequest
+from loguru import logger
 
 from lib.translators.exceptions import TranslationException
 
@@ -19,8 +20,7 @@ def translate_text(text: str, target_lang: str, source_lang: str = None):
         result = translate_client.translate(
             text, target_language=target_lang, source_language=source_lang
         )
-        if result and "translatedText" in result:
-            return result["translatedText"]
-    except BadRequest:
-        pass
-    raise TranslationException("Wrong input or google-translate error")
+        return result.get("translatedText", text)
+    except BadRequest as e:
+        logger.error('Google translate error:{error}', error=str(e))
+        raise TranslationException("Wrong input or google-translate error")

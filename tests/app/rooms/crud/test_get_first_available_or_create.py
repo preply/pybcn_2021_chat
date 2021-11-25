@@ -8,7 +8,7 @@ def test_working_flow(db: Session, room_factory):
     crud = RoomCRUD(db)
     assert db.query(Room).count() == 0
 
-    first = crud.get_first_available_or_create()
+    first = crud.get_or_create_first_available()
     assert db.query(Room).count() == 1
-    second = crud.get_first_available_or_create()
+    second = crud.get_or_create_first_available()
     assert first == second

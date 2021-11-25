@@ -23,7 +23,7 @@ async def get_chat_page(
     db: Session = Depends(deps.get_db),
     current_user: User = Depends(deps.get_current_user),
 ):
-    room = RoomCRUD(db).get_first_available_or_create()
+    room = RoomCRUD(db).get_or_create_first_available()
     return templates.TemplateResponse(
         "chat.html",
         {
