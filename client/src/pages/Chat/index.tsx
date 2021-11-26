@@ -34,6 +34,7 @@ const Chat = () => {
                 setMessages([...messages, JSON.parse(event.data)]);
             };
         }
+
         return () => {
             ws?.close();
         };

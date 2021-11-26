@@ -1,5 +1,4 @@
 from itertools import repeat
-
 from fastapi.testclient import TestClient
 
 from app.config import API_PREFIX

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, event
+from sqlalchemy import Column, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import Enum
 

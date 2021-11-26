@@ -41,6 +41,7 @@ const MessageComponent = ({
     );
 };
 
+
 export const ChatRoom = ({ messages, userId }: { messages: Message[]; userId: string }) => {
     const ref = useRef<HTMLDivElement>(null);
 
