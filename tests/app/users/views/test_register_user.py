@@ -11,13 +11,11 @@ endpoint = f"{API_PREFIX}/users/register/"
 
 
 def test_normal_flow(client: TestClient, user_factory) -> None:
-    password = "some password"
     name = faker.name()
 
     r = client.post(
         endpoint,
         json={
-            "password": password,
             "name": name,
             "lang": random.choice(list(Lang)).value,
         },
@@ -27,4 +25,3 @@ def test_normal_flow(client: TestClient, user_factory) -> None:
     created_user = r.json()
     assert created_user["id"]
     assert created_user["name"] == name
-    assert "password" not in created_user

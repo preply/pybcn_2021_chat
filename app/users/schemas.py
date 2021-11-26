@@ -10,7 +10,6 @@ from app.users.constants import Lang
 class UserRegister(BaseModel):
     name: str
     lang: Lang
-    password: str
 
 
 class UserBase(BaseModel):
@@ -19,11 +18,11 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    password: str
+    pass
 
 
 class UserUpdate(UserBase):
-    password: Optional[str] = None
+    pass
 
 
 class User(InDBBase, UserBase):

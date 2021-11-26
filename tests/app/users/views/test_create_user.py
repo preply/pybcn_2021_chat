@@ -12,7 +12,7 @@ endpoint = f"{API_PREFIX}/users/"
 
 
 def test_normal_flow(client: TestClient, db: Session) -> None:
-    data = {"name": faker.name(), "lang": Lang.ES.value, "password": faker.name()}
+    data = {"name": faker.name(), "lang": Lang.ES.value}
 
     r = client.post(endpoint, json=data)
 
@@ -22,15 +22,6 @@ def test_normal_flow(client: TestClient, db: Session) -> None:
     assert created["id"]
     assert created["name"] == data["name"]
     assert created["lang"] == data["lang"]
-    assert "password" not in created
 
     db.expire_all()
     assert db.query(User).get(created["id"])
-
-
-def test_duplicate(client: TestClient, user_factory) -> None:
-    name = faker.name()
-    user_factory(name=name)
-
-    r = client.post(endpoint, json={"name": name, "password": "some pass"})
-    assert r.status_code == 400, f"body:{r.content}"
