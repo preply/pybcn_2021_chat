@@ -7,7 +7,6 @@ from sqlalchemy.orm import Session
 
 from lib.db import session
 from lib.db.utils import create_tables, truncate_all_tables, create_db, drop_db
-
 from app.run import app
 from app.config import SQLALCHEMY_DATABASE_URI
 

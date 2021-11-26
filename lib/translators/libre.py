@@ -17,4 +17,5 @@ def translate_text(text: str, target_lang: str, source_lang: str):
     if resp.status_code == 200:
         data = resp.json()
         return data.get("translatedText", text)
+    # log error here
     raise TranslationException("Wrong input or libre-translate error")
