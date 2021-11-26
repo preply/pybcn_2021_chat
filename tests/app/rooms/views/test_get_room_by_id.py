@@ -24,8 +24,11 @@ def test_normal_flow(client: TestClient, room_factory, user_factory) -> None:
                 "id": m.id,
                 "text": translate(text=m.text, from_lang=m.lang, to_lang=user.lang),
                 "lang": m.lang.value,
-                "user_id": m.user_id,
                 "created_at": m.created_at.isoformat(),
+                "user": {
+                    "id": m.user.id,
+                    "name": m.user.name,
+                },
             }
             for m in room.messages
         ],
