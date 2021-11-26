@@ -1,23 +1,16 @@
 from sqlalchemy.sql import or_
 
-from app.config import SECRET_KEY
 from app.common.crud import CRUDBase, PaginatedList
 from app.users.models import User
-from app.users.utils import hash_password
 
 
 class UserCRUD(CRUDBase):
     model = User
 
-    def get_by_cred(self, name: str, password) -> User:
-        user = (
-            self.db.query(User)
-            .filter(
-                User.name == name,
-                User.password == hash_password(salt=SECRET_KEY, password=password),
-            )
-            .first()
-        )
+    def get_or_create(self, **kwargs):
+        user = self.db.query(self.model).filter_by(**kwargs).first()
+        if not user:
+            user = self.create(**kwargs)
         return user
 
     def get_multi(

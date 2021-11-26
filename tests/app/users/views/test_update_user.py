@@ -18,7 +18,6 @@ def test_normal_flow(client: TestClient, db: Session, user_factory, lang) -> Non
     data = dict(
         lang=lang.value,
         name=faker.name(),
-        password=faker.phone_number(),
     )
 
     r = client.put(endpoint % user.id, json=data)
@@ -28,7 +27,6 @@ def test_normal_flow(client: TestClient, db: Session, user_factory, lang) -> Non
 
     assert updated["id"]
     assert updated["name"] == data["name"]
-    assert "password" not in updated
 
     db.refresh(user)
     assert user.name == data["name"]
