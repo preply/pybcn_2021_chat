@@ -3,6 +3,7 @@ from typing import Dict
 from fastapi import WebSocket
 
 from app.rooms.utils import translate
+from app.rooms.models import Message
 from app.users.constants import Lang
 from app.users.models import User
 
@@ -26,7 +27,19 @@ class ConnectionManager:
     def disconnect(self, user_id: str):
         self.active_connections.pop(user_id)
 
-    async def broadcast(self, message: str, user: User):
+    async def broadcast(self, message: Message):
         for conn in self.active_connections.values():
-            text = translate(text=message, from_lang=user.lang, to_lang=conn.lang)
-            await conn.socket.send_text(f"User #{user.name}: {text}")
+            text = translate(
+                text=message.text, from_lang=message.user.lang, to_lang=conn.lang
+            )
+            await conn.socket.send_json(
+                {
+                    "text": text,
+                    "created_at": message.created_at.isoformat(),
+                    "lang": message.lang.value,
+                    "user": {
+                        "id": message.user_id,
+                        "name": message.user.name,
+                    },
+                }
+            )

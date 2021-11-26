@@ -32,10 +32,14 @@ class RoomCRUD(CRUDBase):
             query=q, sort_by=sort_by, is_asc=is_asc, page=page, limit=limit
         )
 
-    def add_message(self, room_id: str, user_id: str, text: str, lang: Lang) -> Room:
-        self.db.add(Message(room_id=room_id, user_id=user_id, lang=lang, text=text))
+    def add_message(self, room_id: str, user_id: str, text: str, lang: Lang) -> Message:
+        msg = Message(room_id=room_id, user_id=user_id, lang=lang, text=text)
+        self.db.add(msg)
         self.db.commit()
-        return self.get(room_id)
+        return msg
 
-    def get_first_available(self):
-        return self.db.query(self.model).first()
+    def get_or_create_first_available(self):
+        res = self.db.query(self.model).first()
+        if not res:
+            return self.create(name="pybcn 2021")
+        return res
