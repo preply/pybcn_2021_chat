@@ -11,7 +11,6 @@ services:
       - "5000:5000"
     depends_on:
       - chat-db
-      - chat-redis
 
   chat-db:
     container_name: chat-db
@@ -21,17 +20,6 @@ services:
     volumes:
       - chat-db:/var/lib/postgresql/data
 
-  chat-redis:
-    container_name: chat-redis
-    image: redis:6.2.6
-    volumes:
-      - chat-redis:/data
-    command: ["redis-server", "--appendonly", "yes"]
-
-
 volumes:
   chat-db:
     driver: local
-  chat-redis:
-    driver: local
-

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from tests import faker
 
 from app.rooms.models import Room, Message
-from app.users.constants import Role, Lang
+from app.users.constants import Lang
 from app.users.models import User
 
 
@@ -23,8 +23,6 @@ def user_factory(db: Session):
 
         name = factory.Faker("name")
         password = "pass!"
-        is_active = True
-        role = Role.USER
         lang = factory.LazyFunction(lambda: random.choice(list(Lang)))
 
     return UserFactory

@@ -3,18 +3,13 @@ from typing import Generator
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from redis import Redis
 from sqlalchemy.orm import Session
 
 from lib.db import session
 from lib.db.utils import create_tables, truncate_all_tables, create_db, drop_db
-from lib.factory import get_redis
 
 from app.run import app
-from app.config import AUTH_COOKIE_NAME, SQLALCHEMY_DATABASE_URI
-from app.common.auth import utils as auth
-from app.users.constants import Role
-from app.users.models import User
+from app.config import SQLALCHEMY_DATABASE_URI
 
 
 pytest_plugins = [
@@ -50,22 +45,3 @@ def db() -> Generator[Session, None, None]:
         yield db
     finally:
         db.close()
-
-
-@pytest.fixture(scope="function", autouse=True)
-def redis(mocker) -> Generator[Redis, None, None]:
-    redis = get_redis()
-    redis.flushall()
-
-    mocker.patch("lib.factory.get_redis", return_value=redis)
-    yield redis
-
-
-@pytest.fixture
-def login(client: TestClient, user_factory):
-    def func(user: User = None) -> User:
-        user = user or user_factory(role=Role.ADMIN)
-        client.cookies[AUTH_COOKIE_NAME] = auth.set_user_id(user.id)
-        return user
-
-    return func

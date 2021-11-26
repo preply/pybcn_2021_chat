@@ -1,15 +1,11 @@
 import os
 import importlib
-import redis
 from loguru import logger
 from fastapi import FastAPI, APIRouter
 
 from app.config import (
     PROJECT_NAME,
     API_PREFIX,
-    REDIS_HOST,
-    REDIS_PORT,
-    REDIS_DB,
 )
 
 
@@ -23,7 +19,7 @@ def import_mods(mod_name: str, sub_apps=None, app_dir="app"):
         exists = os.path.exists(os.path.join(app_dir, sub_app, f"{mod_name}.py"))
         if exists:
             path = f"{app_path}.{sub_app}.{mod_name}"
-            yield (sub_app, importlib.import_module(path))
+            yield sub_app, importlib.import_module(path)
         else:
             logger.debug(
                 "No mod:{mod} in app:{path}.{app}",
@@ -52,7 +48,3 @@ def create_app(name=PROJECT_NAME):
     app = FastAPI(title=name, openapi_url=f"{API_PREFIX}/openapi.json")
     register_routes(app)
     return app
-
-
-def get_redis():
-    return redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Boolean, String, event
+from sqlalchemy import Column, String, event
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import Enum
 
@@ -7,7 +7,7 @@ from lib.db.mixins import Dated
 from lib.utils import get_random_uuid
 
 from app.config import SECRET_KEY
-from app.users.constants import Role, Lang
+from app.users.constants import Lang
 from app.users.utils import hash_password
 
 
@@ -18,8 +18,6 @@ class User(Base, Dated):
     )
     name = Column(String(256), unique=True)
     password = Column(String(256), nullable=False)
-    is_active = Column(Boolean(), default=True, index=True)
-    role = Column(Enum(Role), default=Role.USER, index=True)
     lang = Column(Enum(Lang), default=Lang.EN)
 
 

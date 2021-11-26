@@ -4,13 +4,11 @@ pydantic[email]
 aiofiles==0.7.0
 uvicorn==0.15.0
 uvicorn[standard]
-Jinja2==3.0.3
 SQLAlchemy==1.4.23
 alembic==1.7.3
 furl==2.1.2
 requests==2.26.0
 psycopg2-binary==2.9.1
-redis==3.5.3
 simplejson==3.17.5
 loguru==0.5.3
 # google-cloud-translate==2.0.1
