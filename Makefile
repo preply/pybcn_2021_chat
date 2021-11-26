@@ -6,7 +6,9 @@ COMPOSE-TEST = docker-compose -f docker-compose.yml -f docker-compose.test.yml
 
 run:
 	if [ ! -f .env ]; then cp .env.example .env; fi;
-	$(COMPOSE-DEV) up --build
+	$(COMPOSE-DEV) build
+	$(COMPOSE-DEV) up --detach
+	$(COMPOSE-DEV) exec chat alembic upgrade head
 
 test:
 	if [ ! -f .env ]; then cp .env.example .env; fi;
