@@ -9,7 +9,6 @@ endpoint = f"{API_PREFIX}/rooms/"
 
 
 def test_normal_flow(client: TestClient, room_factory) -> None:
-    # some noise
     [f() for f in list(repeat(room_factory, 5))]
 
     r = client.get(endpoint, params={"limit": 3})

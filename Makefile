@@ -1,4 +1,4 @@
-.PHONY: run test revision upgrade downgrade admin bash build stop
+.PHONY: run test revision upgrade downgrade bash build stop
 
 COMPOSE-DEV = docker-compose -f docker-compose.yml -f docker-compose.dev.yml
 COMPOSE-TEST = docker-compose -f docker-compose.yml -f docker-compose.test.yml
@@ -25,9 +25,6 @@ merge-heads:
 
 downgrade:
 	$(COMPOSE-DEV) exec chat alembic downgrade -1
-
-admin:
-	$(COMPOSE-DEV) exec chat python scripts/create_superuser.py
 
 bash:
 	$(COMPOSE-DEV) exec chat /bin/sh

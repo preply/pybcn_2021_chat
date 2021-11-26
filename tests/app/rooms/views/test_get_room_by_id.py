@@ -12,7 +12,6 @@ def test_normal_flow(client: TestClient, room_factory, user_factory) -> None:
     room = room_factory()
 
     r = client.get(endpoint % (room.id, user.id))
-
     assert r.status_code == 200, f"body:{r.content}"
     resp = r.json()
 
