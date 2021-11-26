@@ -37,7 +37,7 @@ const Chat = () => {
         if (!ws) return;
         ws.onmessage = (event: any) => {
             console.log('onmessage', event);
-                setMessages([...messages, JSON.parse(event.data)]);
+            setMessages([...messages, JSON.parse(event.data)]);
         };
         return () => {
             ws?.close();
