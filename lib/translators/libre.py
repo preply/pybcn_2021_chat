@@ -4,7 +4,7 @@ from loguru import logger
 from app.config import LIBRE_TRANSLATE_API_KEY
 from lib.translators.exceptions import TranslationException
 
-API_URL = "https://trans.zillyhuhn.com/"
+API_URL = "https://libretranslate.de"
 
 def translate_text(text: str, target_lang: str, source_lang: str):
     resp = requests.post(
