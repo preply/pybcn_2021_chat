@@ -27,3 +27,5 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 REDIS_HOST = os.environ.get("REDIS_HOST", "chat-redis")
 REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
 REDIS_DB = os.environ.get("REDIS_DB", 0)
+
+LIBRE_TRANSLATE_API_KEY = os.environ.get("LIBRE_TRANSLATE_API_KEY")
