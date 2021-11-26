@@ -30,9 +30,3 @@ def test_default_values(db: Session):
         name=faker.name(),
     )
     assert item.lang == Lang.EN
-
-
-def test_no_required_fields(db: Session):
-    crud = UserCRUD(db)
-    with pytest.raises(CRUDException):
-        crud.create()

@@ -22,7 +22,6 @@ def user_factory(db: Session):
             sqlalchemy_session = db
 
         name = factory.Faker("name")
-        password = "pass!"
         lang = factory.LazyFunction(lambda: random.choice(list(Lang)))
 
     return UserFactory
