@@ -1,8 +1,8 @@
 from loguru import logger
 
-from app.users.constants import Lang
 from lib.translators.exceptions import TranslationException
 from lib.translators import translate_text
+from app.users.constants import Lang
 
 
 def translate(text: str, from_lang: Lang, to_lang: Lang) -> str:

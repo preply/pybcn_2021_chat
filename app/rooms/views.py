@@ -4,9 +4,9 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.common import deps
-from app.rooms.utils import get_translated_messages
 from app.users.crud import UserCRUD
 from app.rooms import schemas
+from app.rooms.utils import get_translated_messages
 from app.rooms.crud import RoomCRUD
 
 
@@ -42,7 +42,6 @@ def create_room(
     db: Session = Depends(deps.get_db),
 ) -> Any:
     crud = RoomCRUD(db)
-
     return crud.create(**data.dict())
 
 

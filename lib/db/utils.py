@@ -47,7 +47,7 @@ def truncate_all_tables():
     db = session()
     for table in reversed(Base.metadata.sorted_tables):
         logger.info("Clear table:{name}", name=table)
-        db.execute(table.delete())  # Truncates table
+        db.execute(table.delete())  # Truncate table
     db.commit()
 
 

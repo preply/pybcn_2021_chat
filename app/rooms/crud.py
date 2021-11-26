@@ -1,5 +1,3 @@
-from sqlalchemy.sql import or_
-
 from app.common.crud import CRUDBase, PaginatedList
 from app.rooms.models import Room, Message
 from app.users.constants import Lang
@@ -19,11 +17,7 @@ class RoomCRUD(CRUDBase):
     ) -> PaginatedList[Room]:
         q = self.db.query(self.model)
         if query:
-            q = q.filter(
-                or_(
-                    self.model.name.ilike(f"%{query}%"),
-                )
-            )
+            q = q.filter(self.model.name.ilike(f"%{query}%"))
 
         if user_id:
             q = q.filter(self.model.users.any(id=user_id))

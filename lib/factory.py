@@ -20,18 +20,10 @@ def import_mods(mod_name: str, sub_apps=None, app_dir="app"):
         if exists:
             path = f"{app_path}.{sub_app}.{mod_name}"
             yield sub_app, importlib.import_module(path)
-        else:
-            logger.debug(
-                "No mod:{mod} in app:{path}.{app}",
-                mod=mod_name,
-                app=sub_app,
-                path=app_path,
-            )
 
 
 def import_models():
-    res = [m for _, m in import_mods(mod_name="models")]
-    return res
+    return [m for _, m in import_mods(mod_name="models")]
 
 
 def register_routes(app):

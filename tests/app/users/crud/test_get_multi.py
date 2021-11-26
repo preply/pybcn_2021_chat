@@ -7,11 +7,9 @@ from app.users.crud import UserCRUD
 
 def test_working_flow(db: Session, user_factory):
     crud = UserCRUD(db)
-
     limit = 10
     prefix = "fghsdsd"
 
-    # some noise
     [f() for f in list(repeat(user_factory, 5))]
 
     users = [user_factory(name=f"{i}{prefix}{i}") for i in range(10)]

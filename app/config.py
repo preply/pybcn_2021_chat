@@ -4,8 +4,6 @@ PROJECT_NAME = "chat"
 
 API_PREFIX = "/api"
 
-ENV = os.environ.get("ENV", "local")
-
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 STATIC_DIR = "static"
