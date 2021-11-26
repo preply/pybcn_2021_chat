@@ -7,6 +7,12 @@ from app.users.models import User
 class UserCRUD(CRUDBase):
     model = User
 
+    def get_or_create(self, **kwargs):
+        user = self.db.query(self.model).filter_by(**kwargs).first()
+        if not user:
+            user = self.create(**kwargs)
+        return user
+
     def get_multi(
         self,
         query: str = None,

@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.common import deps
+from app.rooms.crud import RoomCRUD
 from app.users import schemas
 from app.users.crud import UserCRUD
 
@@ -55,10 +56,8 @@ def register_user(
     db: Session = Depends(deps.get_db),
     data: schemas.UserRegister,
 ) -> Any:
-
-    user = UserCRUD(db).create(**data.dict())
-
-    return user
+    RoomCRUD(db).get_or_create_first_available()
+    return UserCRUD(db).get_or_create(**data.dict())
 
 
 @router.get("/{user_id}/", response_model=schemas.User)
