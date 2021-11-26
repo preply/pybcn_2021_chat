@@ -30,11 +30,6 @@ const Chat = () => {
         if (room) {
             const ws = new WebSocket(`ws://localhost:5000/api/ws/${room.id}/${userId}`);
             ws.onopen = () => setWs(ws);
-
-            ws.onmessage = (event: any) => {
-                console.log('onmessage', event);
-                setMessages([...messages, JSON.parse(event.data)]);
-            };
         }
     }, [room, userId]);
 
@@ -42,7 +37,7 @@ const Chat = () => {
         if (!ws) return;
         ws.onmessage = (event: any) => {
             console.log('onmessage', event);
-            setMessages([...messages, event.data]);
+            setMessages([...messages, JSON.parse(event.data)]);
         };
         return () => {
             ws?.close();

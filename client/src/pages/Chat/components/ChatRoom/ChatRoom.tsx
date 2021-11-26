@@ -44,7 +44,7 @@ const MessageComponent = ({
 
 export const ChatRoom = ({ messages, userId }: { messages: Message[]; userId: string }) => (
     <div className={styles.container}>
-        {messages.map(msg => typeof msg === 'string' ? JSON.parse(msg) : msg).map((message, i) => (
+        {messages.map((message, i) => (
             <MessageComponent key={i} {...message} isOwnMessage={message.user.id === userId} />
         ))}
     </div>
