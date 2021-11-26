@@ -1,6 +1,6 @@
 # Chat application project for PyBCN 2021 workshop
 
-Proof of concept application for playing with Python and other technologies (like Websockets)
+Proof of concept application for playing with Python and other technologies (like Websockets), as part of the [PyBCN 2021](https://pybcn.org/events/pyday_bcn/pyday_bcn_2021/) event
 
 ## Requirements
 - [Docker](https://docs.docker.com/install/)
