@@ -28,11 +28,11 @@ async def websocket_endpoint(
     await manager.connect(user=user, websocket=websocket)
     try:
         while True:
-            data = await websocket.receive_json()
+            msg = await websocket.receive_text()
             message = RoomCRUD(db).add_message(
                 room_id=room_id,
                 user_id=user.id,
-                text=data["message"],
+                text=msg,
                 lang=user.lang,
             )
             await manager.broadcast(message=message)

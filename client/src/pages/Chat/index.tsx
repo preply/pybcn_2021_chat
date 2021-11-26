@@ -12,7 +12,8 @@ const Chat = () => {
     const [ws, setWs] = useState<WebSocket>();
     const [room, setRoom] = useState<Room | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
-    const { id: userId } = JSON.parse(localStorage.getItem(LocalStorage.USER) || '');
+    const userData = JSON.parse(localStorage.getItem(LocalStorage.USER) || '');
+    const userId = userData.data.id;
 
     useEffect(() => {
         getChats()
@@ -51,7 +52,7 @@ const Chat = () => {
     const sendMessage = useCallback(
         (message: string) => {
             console.log('send', message);
-            ws?.send(JSON.stringify({ userId, message }));
+            ws?.send(message);
         },
         [ws],
     );
