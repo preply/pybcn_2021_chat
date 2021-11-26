@@ -24,7 +24,7 @@ const MessageComponent = ({
     };
 
     return (
-        <div className={styles.message} data-ownMessage={isOwnMessage}>
+        <div className={styles.message} data-ownmessage={isOwnMessage}>
             <Text fontSize={'sm'} color={getBackgroundColor(id)} className={styles.title}>
                 {isOwnMessage ? 'You' : name}
                 <Text fontSize="xs" as="i">
@@ -40,7 +40,6 @@ const MessageComponent = ({
         </div>
     );
 };
-
 
 export const ChatRoom = ({ messages, userId }: { messages: Message[]; userId: string }) => {
     const ref = useRef<HTMLDivElement>(null);

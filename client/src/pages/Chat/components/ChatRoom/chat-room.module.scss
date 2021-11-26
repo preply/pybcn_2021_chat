@@ -32,7 +32,7 @@
 		align-self: flex-start;
 	}
 
-	&[data-ownMessage=true] {
+	&[data-ownmessage=true] {
 		&, .title {
 			align-self: flex-end;
 		}

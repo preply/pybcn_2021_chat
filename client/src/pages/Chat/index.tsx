@@ -10,6 +10,7 @@ import { LocalStorage } from '../../models/localstorage';
 
 const Chat = () => {
     const [ws, setWs] = useState<WebSocket>();
+    const [wsActive, setWSActive] = useState(false);
     const [room, setRoom] = useState<Room | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const userData = JSON.parse(localStorage.getItem(LocalStorage.USER) || '');
@@ -25,23 +26,26 @@ const Chat = () => {
     }, [userId]);
 
     useEffect(() => {
-        if (room) {
-            const ws = new WebSocket(`ws://localhost:5000/api/ws/${room.id}/${userId}`);
-            ws.onopen = () => setWs(ws);
+        if (room && !wsActive) {
+            const webSocket = new WebSocket(`ws://localhost:5000/api/ws/${room.id}/${userId}`);
+            webSocket.onopen = () => {
+                setWs(webSocket);
+                setWSActive(true);
+            };
 
-            ws.onmessage = (event: any) => {
-                console.log('onmessage');
-                setMessages([...messages, JSON.parse(event.data)]);
+            webSocket.onmessage = ({ data }: { data: string }) => {
+                setMessages((e: Message[]) => [...e, JSON.parse(data)]);
             };
         }
+    }, [wsActive, room, userId]);
 
+    useEffect(() => {
         return () => {
             ws?.close();
         };
-    }, [ws, messages, room, userId]);
+    }, [ws]);
 
     const sendMessage = (message: string) => {
-        console.log('send');
         ws?.send(message);
     };
 
@@ -60,7 +64,7 @@ const Chat = () => {
     return (
         <div className={styles.container}>
             <SendMessage sendMessage={sendMessage} />
-            <ChatRoom messages={messages} userId={userId} />
+            <ChatRoom messages={messages!} userId={userId} />
         </div>
     );
 };
