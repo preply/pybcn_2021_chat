@@ -1,12 +1,14 @@
 import requests
+from loguru import logger
 
 from app.config import LIBRE_TRANSLATE_API_KEY
 from lib.translators.exceptions import TranslationException
 
+API_URL = "https://trans.zillyhuhn.com/"
 
 def translate_text(text: str, target_lang: str, source_lang: str):
     resp = requests.post(
-        "https://libretranslate.de/translate",
+        f"{API_URL}/translate",
         data={
             "q": text,
             "source": source_lang,
@@ -17,5 +19,9 @@ def translate_text(text: str, target_lang: str, source_lang: str):
     if resp.status_code == 200:
         data = resp.json()
         return data.get("translatedText", text)
-    # log error here
-    raise TranslationException("Wrong input or libre-translate error")
+    else:
+        try:
+            resp.raise_for_status()
+        except requests.HTTPError as e:
+            logger.error(e)
+            raise TranslationException('Libre Translate failed') from e
