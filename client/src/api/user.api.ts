@@ -1,3 +1,4 @@
-import { axiosInstance } from "./axios-instance";
+import { axiosInstance } from './axios-instance';
+import { User } from '../models/user';
 
-export const getUser = () => axiosInstance.get("/users/me");
+export const getUser = (): Promise<User> => axiosInstance.get('/users/me');
