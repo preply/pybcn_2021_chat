@@ -1,31 +1,44 @@
 @import 'src/styles/utils/mixins';
+@import 'src/styles/components/card';
 
 .container {
 	display: flex;
 	flex-direction: column;
-
+	justify-content: center;
+	align-items: flex-start;
+	gap: 8px;
 	width: 100%;
 	height: 600px;
+	padding: 16px 6px;
 
 	@include hideScrollbar();
+	overflow-y: auto;
+	background: #f5f7fa;
 }
 
 .message {
+	@extend .card;
 	display: flex;
 	flex-direction: column;
 
-	width: 100%;
 	padding: 2px 8px;
 	border-radius: 12px;
-	background: #33aab4;
+
+	* {
+		word-break: break-all;
+	}
 
 	.title {
-		justify-self: flex-start;
+		align-self: flex-start;
 	}
 
 	&[data-ownMessage=true] {
-		.title {
-			justify-self: flex-end;
+		&, .title {
+			align-self: flex-end;
 		}
+	}
+
+	i {
+		margin-left: 6px;
 	}
 }
