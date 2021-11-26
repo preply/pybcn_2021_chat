@@ -55,7 +55,9 @@ def register_user(
     db: Session = Depends(deps.get_db),
     data: schemas.UserRegister,
 ) -> Any:
+
     user = UserCRUD(db).create(**data.dict())
+
     return user
 
 
