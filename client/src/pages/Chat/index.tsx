@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SendMessage } from './components/SendMessage';
+import { SendMessage } from './components/SendMessage/SendMessage';
 import styles from './chat.module.scss';
 import { getChats } from '../../api/chat.api';
 

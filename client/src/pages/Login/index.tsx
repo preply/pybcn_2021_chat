@@ -13,9 +13,8 @@ import { Routes } from '../../routes/routes.types';
 import { Link as ReactLink, useNavigate } from 'react-router-dom';
 import styles from './login.module.scss';
 import { login } from '../../api/auth.api';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../store/core/core.actions';
 import { ValidationError } from '../../models/ValidationError';
+import { LocalStorage } from '../../models/localstorage';
 
 type FormType = {
     username: string;
@@ -23,7 +22,6 @@ type FormType = {
 };
 
 const Login = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const {
         handleSubmit,
@@ -36,7 +34,7 @@ const Login = () => {
         setError(null);
         login(username, password)
             .then(user => {
-                dispatch(setUser(user));
+                localStorage.setItem(LocalStorage.USER, JSON.stringify(user));
                 navigate(Routes.CHAT);
             })
             .catch((error: ValidationError) =>
