@@ -2,7 +2,6 @@ from itertools import repeat
 
 from sqlalchemy.orm import Session
 
-from app.users.constants import Role
 from app.users.crud import UserCRUD
 
 
@@ -23,21 +22,3 @@ def test_working_flow(db: Session, user_factory):
         )
         for i, item in enumerate(items):
             assert item.id == users[i + page * limit].id
-
-
-def test_filters(db: Session, user_factory):
-    crud = UserCRUD(db)
-
-    u1 = user_factory(is_active=False, role=Role.USER)
-    u2 = user_factory(is_active=True, role=Role.ADMIN)
-    u3 = user_factory(is_active=False, role=Role.ADMIN)
-    u4 = user_factory(is_active=True, role=Role.USER)
-
-    items = crud.get_multi(is_active=False)
-    assert {u1.id, u3.id} == {i.id for i in items}
-
-    items = crud.get_multi(is_active=True)
-    assert {u2.id, u4.id} == {i.id for i in items}
-
-    items = crud.get_multi(role=Role.ADMIN)
-    assert {u2.id, u3.id} == {i.id for i in items}

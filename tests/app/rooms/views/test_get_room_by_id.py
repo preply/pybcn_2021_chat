@@ -2,18 +2,16 @@ from fastapi.testclient import TestClient
 
 from app.config import API_PREFIX
 from app.rooms.utils import translate
-from app.users.constants import Role
 
 
-endpoint = f"{API_PREFIX}/rooms/%s"
+endpoint = f"{API_PREFIX}/rooms/%s/%s"
 
 
-def test_normal_flow(client: TestClient, room_factory, login, user_factory) -> None:
-    user = user_factory(role=Role.USER)
-    login(user)
+def test_normal_flow(client: TestClient, room_factory, user_factory) -> None:
+    user = user_factory()
     room = room_factory()
 
-    r = client.get(endpoint % room.id)
+    r = client.get(endpoint % (room.id, user.id))
 
     assert r.status_code == 200, f"body:{r.content}"
     resp = r.json()

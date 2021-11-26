@@ -8,12 +8,11 @@ from tests import faker
 
 from app.common.crud import CRUDException
 from app.users.crud import UserCRUD
-from app.users.constants import Role, Lang
+from app.users.constants import Lang
 
 
-@pytest.mark.parametrize("role", Role)
 @pytest.mark.parametrize("lang", Lang)
-def test_working_flow(db: Session, user_factory, role, lang):
+def test_working_flow(db: Session, user_factory, lang):
     crud = UserCRUD(db)
     user = user_factory()
     hashed_password = user.password
@@ -21,7 +20,6 @@ def test_working_flow(db: Session, user_factory, role, lang):
     created_at = user.created_at
 
     data = dict(
-        role=role,
         lang=lang,
         name=faker.name(),
         password=faker.phone_number(),
@@ -30,12 +28,15 @@ def test_working_flow(db: Session, user_factory, role, lang):
     db.refresh(item)
 
     assert item.id
-    assert item.role == role
     assert item.lang == lang
     assert item.name == data["name"]
 
     # Check hashing
-    assert item.password == hash_password(salt=SECRET_KEY, password=data["password"])
+    assert (
+        hashed_password
+        != item.password
+        == hash_password(salt=SECRET_KEY, password=data["password"])
+    )
 
     assert item.updated_at and item.updated_at != updated_at
     assert item.created_at == created_at
@@ -56,4 +57,4 @@ def test_no_user(db: Session, user_factory):
     user_factory()
 
     with pytest.raises(CRUDException):
-        crud.update(pk=get_random_uuid(), role=Role.USER)
+        crud.update(pk=get_random_uuid())

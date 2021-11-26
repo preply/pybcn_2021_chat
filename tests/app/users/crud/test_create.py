@@ -7,15 +7,13 @@ from tests import faker
 
 from app.common.crud import CRUDException
 from app.users.crud import UserCRUD
-from app.users.constants import Role, Lang
+from app.users.constants import Lang
 
 
-@pytest.mark.parametrize("role", Role)
 @pytest.mark.parametrize("lang", Lang)
-def test_working_flow(db: Session, role, lang):
+def test_working_flow(db: Session, lang):
     crud = UserCRUD(db)
     data = dict(
-        role=role,
         lang=lang,
         name=faker.name(),
         password="asddasdd",
@@ -24,7 +22,6 @@ def test_working_flow(db: Session, role, lang):
     item = crud.create(**data)
     db.refresh(item)
     assert item.id
-    assert item.role == role
 
     # Check hashing
     assert item.password == hash_password(salt=SECRET_KEY, password=data["password"])
@@ -39,9 +36,7 @@ def test_default_values(db: Session):
         name=faker.name(),
         password="1212",
     )
-    assert item.role == Role.USER
     assert item.lang == Lang.EN
-    assert item.is_active
 
 
 def test_no_required_fields(db: Session):

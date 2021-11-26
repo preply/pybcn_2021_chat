@@ -14,6 +14,3 @@ services:
   chat-db:
     env_file:
       - .env.test
-
-  chat-redis:
-    command: ["redis-server", "--save \"\"", "--appendonly", "no"]
