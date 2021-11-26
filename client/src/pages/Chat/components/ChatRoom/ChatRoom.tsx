@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import moment from 'moment';
 import { Message } from '../../../../models/message';
 import styles from './chat-room.module.scss';
@@ -24,13 +24,12 @@ const MessageComponent = ({
     };
 
     return (
-        <div
-            className={styles.message}
-            style={{ background: getBackgroundColor(id) }}
-            data-ownMessage={isOwnMessage}
-        >
-            <Text fontSize={'sm'}>
-                {isOwnMessage ? 'You' : name} {moment(created_at).format('hh:mm')}
+        <div className={styles.message} data-ownMessage={isOwnMessage}>
+            <Text fontSize={'sm'} color={getBackgroundColor(id)} className={styles.title}>
+                {isOwnMessage ? 'You' : name}
+                <Text fontSize="xs" as="i">
+                    {moment(created_at).format('hh:mm')}
+                </Text>
             </Text>
             <Text className={styles.content}>
                 {text}
@@ -42,10 +41,26 @@ const MessageComponent = ({
     );
 };
 
-export const ChatRoom = ({ messages, userId }: { messages: Message[]; userId: string }) => (
-    <div className={styles.container}>
-        {messages.map((message, i) => (
-            <MessageComponent key={i} {...message} isOwnMessage={message.user.id === userId} />
-        ))}
-    </div>
-);
+
+export const ChatRoom = ({ messages, userId }: { messages: Message[]; userId: string }) => {
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (ref?.current) {
+            ref?.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages]);
+
+    return (
+        <div className={styles.container}>
+            {messages.map(message => (
+                <MessageComponent
+                    key={message.id}
+                    isOwnMessage={message.user.id === userId}
+                    {...message}
+                />
+            ))}
+            <div ref={ref} style={{ visibility: 'hidden' }} />
+        </div>
+    );
+};

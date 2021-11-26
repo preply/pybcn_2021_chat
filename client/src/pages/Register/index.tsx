@@ -34,8 +34,8 @@ const Register = () => {
     const onSubmit = ({ username, lang }: FormType) => {
         setError(null);
         registerApi(username, lang)
-            .then(user => {
-                localStorage.setItem(LocalStorage.USER, JSON.stringify(user));
+            .then(({ data }) => {
+                localStorage.setItem(LocalStorage.USER, JSON.stringify(data));
                 navigate(Routes.CHAT);
             })
             .catch((error: ValidationError) =>
@@ -65,7 +65,9 @@ const Register = () => {
                         {...register('lang', { required: 'This field is required' })}
                     >
                         {Object.entries(LanguagesValues).map(([prop, value]) => (
-                            <option value={value}>{prop}</option>
+                            <option key={value} value={value}>
+                                {prop}
+                            </option>
                         ))}
                     </Select>
                     <FormErrorMessage>{errors.lang && errors.lang.message}</FormErrorMessage>

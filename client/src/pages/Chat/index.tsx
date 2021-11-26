@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SendMessage } from './components/SendMessage/SendMessage';
 import styles from './chat.module.scss';
 import { getChat, getChats } from '../../api/chat.api';
@@ -13,16 +13,14 @@ const Chat = () => {
     const [room, setRoom] = useState<Room | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const userData = JSON.parse(localStorage.getItem(LocalStorage.USER) || '');
-    const userId = userData.data.id;
+    const userId = userData.id;
 
     useEffect(() => {
         getChats()
             .then(res => getChat(res[0].id, userId))
             .then(res => {
                 setRoom(res);
-                setMessages(
-                    res.messages.map((e: any) => ({ ...e, user: { id: e.user_id, name: '' } })),
-                );
+                setMessages(res.messages);
             });
     }, [userId]);
 
@@ -30,27 +28,22 @@ const Chat = () => {
         if (room) {
             const ws = new WebSocket(`ws://localhost:5000/api/ws/${room.id}/${userId}`);
             ws.onopen = () => setWs(ws);
-        }
-    }, [room, userId]);
 
-    useEffect(() => {
-        if (!ws) return;
-        ws.onmessage = (event: any) => {
-            console.log('onmessage', event);
-            setMessages([...messages, JSON.parse(event.data)]);
-        };
+            ws.onmessage = (event: any) => {
+                console.log('onmessage');
+                setMessages([...messages, JSON.parse(event.data)]);
+            };
+        }
+
         return () => {
             ws?.close();
         };
-    }, [ws]);
+    }, [ws, messages, room, userId]);
 
-    const sendMessage = useCallback(
-        (message: string) => {
-            console.log('send', message);
-            ws?.send(message);
-        },
-        [ws],
-    );
+    const sendMessage = (message: string) => {
+        console.log('send');
+        ws?.send(message);
+    };
 
     if (!room) {
         return (
