@@ -24,8 +24,6 @@ List of available commands:
 - `upgrade` apply latest database migration files
 - `merge-heads` generate database migration file for heads merging
 - `bash` open bash shell inside app container
-- `dbshell` run pimped out database shell inside db container
-- `redis-cli` run redis shell in redis container
 - `test` run all tests
 - `test file=path/to/tests.py::some_test` run separate dir/module/test
 

@@ -1,8 +1,4 @@
-from fastapi.templating import Jinja2Templates
 from app.config import ENV
-
-
-templates = Jinja2Templates(directory="templates")
 
 
 def is_local():

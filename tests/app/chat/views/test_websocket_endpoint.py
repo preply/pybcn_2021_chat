@@ -11,11 +11,10 @@ endpoint = f"{API_PREFIX}/chat/ws/%s"
 
 
 @pytest.mark.asyncio
-async def test_normal_flow(client: TestClient, login, room_factory) -> None:
+async def test_normal_flow(client: TestClient, room_factory) -> None:
     """
     I still did not find howto test this endpoint properly
     """
-    user = login()
     room = room_factory()
     message = faker.pystr(min_chars=10, max_chars=1024)
 

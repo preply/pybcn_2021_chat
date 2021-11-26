@@ -4,12 +4,7 @@ from typing import Optional, List
 from pydantic import BaseModel
 
 from app.common.schemas import InDBBase, ListBase
-from app.users.constants import Role, Lang
-
-
-class UserLogin(BaseModel):
-    name: str
-    password: str
+from app.users.constants import Lang
 
 
 class UserRegister(BaseModel):
@@ -20,8 +15,6 @@ class UserRegister(BaseModel):
 
 class UserBase(BaseModel):
     name: str
-    is_active: bool = True
-    role: Role = Role.USER
     lang: Lang = Lang.EN
 
 
