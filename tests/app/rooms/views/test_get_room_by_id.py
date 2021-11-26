@@ -28,7 +28,7 @@ def test_normal_flow(client: TestClient, room_factory, user_factory) -> None:
                 "user": {
                     "id": m.user.id,
                     "name": m.user.name,
-                }
+                },
             }
             for m in room.messages
         ],

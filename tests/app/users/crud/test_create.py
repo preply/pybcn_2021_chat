@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 
 from tests import faker
 
-from app.common.crud import CRUDException
 from app.users.crud import UserCRUD
 from app.users.constants import Lang
 
