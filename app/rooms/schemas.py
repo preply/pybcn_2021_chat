@@ -24,11 +24,16 @@ class RoomsList(ListBase):
     results: List[Room]
 
 
+class User(InDBBase):
+    id: str
+    name: str
+
+
 class Message(InDBBase):
     text: str
     lang: Lang
-    user_id: str
     created_at: datetime
+    user: User
 
 
 class RoomDetails(InDBBase, RoomBase):

@@ -32,16 +32,6 @@ def test_working_flow(db: Session, user_factory, lang):
     assert item.created_at == created_at
 
 
-def test_duplicated(db: Session, user_factory):
-    crud = UserCRUD(db)
-    name = faker.name()
-    user_factory(name=name)
-    another_user = user_factory()
-
-    with pytest.raises(CRUDException):
-        crud.update(pk=another_user.id, name=name)
-
-
 def test_no_user(db: Session, user_factory):
     crud = UserCRUD(db)
     user_factory()
