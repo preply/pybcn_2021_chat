@@ -1,0 +1,11 @@
+@import 'card';
+
+.container {
+	@extend .card;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	width: 556px;
+	margin: 0 auto;
+	text-align: center;
+}

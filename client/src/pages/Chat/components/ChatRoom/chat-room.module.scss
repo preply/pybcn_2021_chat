@@ -1,0 +1,31 @@
+@import 'src/styles/utils/mixins';
+
+.container {
+	display: flex;
+	flex-direction: column;
+
+	width: 100%;
+	height: 600px;
+
+	@include hideScrollbar();
+}
+
+.message {
+	display: flex;
+	flex-direction: column;
+
+	width: 100%;
+	padding: 2px 8px;
+	border-radius: 12px;
+	background: #33aab4;
+
+	.title {
+		justify-self: flex-start;
+	}
+
+	&[data-ownMessage=true] {
+		.title {
+			justify-self: flex-end;
+		}
+	}
+}
