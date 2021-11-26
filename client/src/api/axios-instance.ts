@@ -7,8 +7,3 @@ export const axiosInstance = axios.create({
     baseURL: 'http://localhost:5000/api',
     withCredentials: true,
 });
-
-axiosInstance.interceptors.response.use(
-    res => res.data,
-    error => Promise.reject(error),
-);

@@ -6,14 +6,11 @@ import {
     FormErrorMessage,
     FormLabel,
     Input,
-    InputGroup,
-    InputRightElement,
-    Link,
     Select,
     Text,
 } from '@chakra-ui/react';
 import { Routes } from '../../routes/routes.types';
-import { Link as ReactLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './register.module.scss';
 import { LanguagesValues } from '../../models/languages';
 import { register as registerApi } from '../../api/auth.api';
@@ -22,7 +19,6 @@ import { LocalStorage } from '../../models/localstorage';
 
 type FormType = {
     username: string;
-    password: string;
     lang: string;
 };
 
@@ -34,11 +30,10 @@ const Register = () => {
         formState: { errors, isSubmitting },
     } = useForm<FormType>();
     const [error, setError] = useState<string | null>(null);
-    const [showPassword, setShowPassword] = useState<boolean>(false);
 
-    const onSubmit = ({ username, lang, password }: FormType) => {
+    const onSubmit = ({ username, lang }: FormType) => {
         setError(null);
-        registerApi(username, password, lang)
+        registerApi(username, lang)
             .then(user => {
                 localStorage.setItem(LocalStorage.USER, JSON.stringify(user));
                 navigate(Routes.CHAT);
@@ -62,29 +57,6 @@ const Register = () => {
                         {errors.username && errors.username.message}
                     </FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={!!errors.password}>
-                    <FormLabel htmlFor="password">Password</FormLabel>
-                    <InputGroup>
-                        <Input
-                            id={'password'}
-                            type={showPassword ? 'text' : 'password'}
-                            placeholder={'Password'}
-                            {...register('password', { required: 'This field is required' })}
-                        />
-                        <InputRightElement width="4.5rem">
-                            <Button
-                                h="1.75rem"
-                                size="sm"
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
-                                {showPassword ? 'Hide' : 'Show'}
-                            </Button>
-                        </InputRightElement>
-                    </InputGroup>
-                    <FormErrorMessage>
-                        {errors.password && errors.password.message}
-                    </FormErrorMessage>
-                </FormControl>
                 <FormControl isInvalid={!!errors.lang}>
                     <FormLabel htmlFor={'lang'}>Language </FormLabel>
                     <Select
@@ -103,9 +75,6 @@ const Register = () => {
                 </Button>
                 {error && <Text color={'red.500'}>{error}</Text>}
             </form>
-            <Link as={ReactLink} to={Routes.LOGIN}>
-                Already have an account?
-            </Link>
         </div>
     );
 };

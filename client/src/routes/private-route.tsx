@@ -11,7 +11,7 @@ export const PrivateRoute = ({ children, ...rest }: RouteProps) => {
     const user = localStorage.getItem(LocalStorage.USER);
 
     if (!user) {
-        return <Navigate to={Routes.LOGIN} />;
+        return <Navigate to={Routes.REGISTER} />;
     }
 
     const childrenWithProps = React.Children.map(children, child => {
