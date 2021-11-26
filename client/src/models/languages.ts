@@ -1,3 +1,31 @@
 export enum Languages {
     EN = 'en',
+    ES = 'es',
+    UA = 'ua',
+    RU = 'ru',
+    PT = 'pt',
+    CA = 'ca',
+    FR = 'fr',
+    DE = 'de',
+    ZH = 'zh-CN',
+    AR = 'ar-AE',
+    KO = 'ko',
+    IW = 'iw',
+    JA = 'ja',
 }
+
+export const LanguagesValues: Record<Languages, string> = {
+    [Languages.EN]: 'en',
+    [Languages.ES]: 'es',
+    [Languages.UA]: 'ua',
+    [Languages.RU]: 'ru',
+    [Languages.PT]: 'pt',
+    [Languages.CA]: 'ca',
+    [Languages.FR]: 'fr',
+    [Languages.DE]: 'de',
+    [Languages.ZH]: 'zh-CN',
+    [Languages.AR]: 'ar-AE',
+    [Languages.KO]: 'ko',
+    [Languages.IW]: 'iw',
+    [Languages.JA]: 'ja',
+};

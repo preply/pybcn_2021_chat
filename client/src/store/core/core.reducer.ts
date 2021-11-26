@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import { State } from '../index';
 
 export type CoreState = {
-    user: User | null;
+    user: User | null | undefined;
 };
 
 const initialState: CoreState = {
-    user: null,
+    user: undefined,
 };
 
 export const coreReducer = (state = initialState, action: CoreActions): CoreState => {

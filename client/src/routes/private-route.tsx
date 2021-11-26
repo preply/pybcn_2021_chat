@@ -10,7 +10,11 @@ type RouteProps = {
 export const PrivateRoute = ({ children, ...rest }: RouteProps) => {
     const user = useCoreUser();
 
-    if (!user) {
+    if (user === undefined) {
+        return <></>;
+    }
+
+    if (user === null) {
         return <Navigate to={Routes.LOGIN} />;
     }
 

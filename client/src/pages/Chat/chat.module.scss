@@ -1,0 +1,10 @@
+@import 'src/styles/components/card';
+
+.container {
+	@extend .card;
+
+	display: flex;
+	flex-direction: column;
+
+	width: 80vw;
+}
