@@ -1,4 +1,4 @@
-.PHONY: run test revision upgrade downgrade admin bash dbshell redis-cli build stop
+.PHONY: run test revision upgrade downgrade admin bash redis-cli build stop
 
 COMPOSE-DEV = docker-compose -f docker-compose.yml -f docker-compose.dev.yml
 COMPOSE-TEST = docker-compose -f docker-compose.yml -f docker-compose.test.yml
@@ -29,9 +29,6 @@ admin:
 
 bash:
 	$(COMPOSE-DEV) exec chat /bin/sh
-
-dbshell:
-	$(COMPOSE-DEV) exec chat pgcli postgresql://postgres:uyT765sds65@chat-db:5432/chat
 
 redis-cli:
 	$(COMPOSE-DEV) exec chat-redis redis-cli
