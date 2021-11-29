@@ -3,7 +3,13 @@ This project was bootstrapped with
 
 ## Available Scripts
 
-In the project directory, you can run:
+Please install yarn via NPM package manager first.
+
+In the client directory, run firstly
+
+### `yarn`
+
+and then
 
 ### `yarn start`
 
